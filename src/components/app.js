@@ -1,4 +1,5 @@
 import React from "react";
+import Toggle from './components/Toggle';
 
-const App = () => <div>Hello React</div>;
+const App = () => <Toggle onToggle={(on) => console.log("Toggle", on)}/>;
 export default App;
