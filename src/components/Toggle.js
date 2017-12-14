@@ -13,14 +13,24 @@ class Toggle extends React.Component {
     initialState = {on: this.props.defaultOn};
     state = this.initialState;
 
+    isControlled() {
+        return this.props.on !== undefined;
+    }
+
     // toggle method
-    toggle = () =>
-        this.setState(
-            ({on}) => ({on: !on}),
-            () => {
-                this.props.onToggle(this.state.on)
-            }
-        );
+    toggle = () =>{
+      if (this.isControlled()) {
+        this.props.onToggle(!this.props.on)
+      } else {
+          this.setState(
+              ({on}) => ({on: !on}),
+              () => {
+                  this.props.onToggle(this.state.on)
+              }
+          );
+      }
+    };
+
 
     reset = () => this.setState(
         this.initialState
@@ -28,7 +38,9 @@ class Toggle extends React.Component {
 
     render() {
         return this.props.render({
-            on: this.state.on,
+            on: this.isControlled() ?
+                    this.props.on :
+                    this.state.on,
             toggle: this.toggle,
             reset: this.reset,
             getProps: (props) => {

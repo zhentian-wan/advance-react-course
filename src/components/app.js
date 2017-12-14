@@ -11,10 +11,10 @@ class App extends React.Component {
     state = this.initialState;
 
     handleToggle = () => {
-        const timesClicked = this.state.timesClicked + 1;
-        this.setState({
-            timesClicked
-        });
+        this.setState(({on, timesClicked}) => ({
+            timesClicked: timesClicked + 1,
+            on: timesClicked >= 4 ? false: !on
+        }));
     };
 
     cleanTimes = () => {
@@ -29,8 +29,7 @@ class App extends React.Component {
             <Toggle
                 on={on}
                 defaultOn={true}
-                onToggle={(on) => {
-                    console.log("Toggle", on);
+                onToggle={() => {
                     this.handleToggle();
                 }}
                 render={({on, toggle, getProps, reset}) => (
@@ -46,7 +45,7 @@ class App extends React.Component {
                                 (
                                     <div>
                                         <p>
-                                            <b>'You have click too many times</b>
+                                            <b>'You have click too many times, {timesClicked}</b>
                                         </p>
                                         <button
                                             {...getProps({
